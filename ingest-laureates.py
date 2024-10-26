@@ -33,7 +33,6 @@ def ingest_data(file_path):
             }
             documents.append(document)
 
-    # Insert data into the collection
     collection.insert_many(documents)
 
 
