@@ -1,0 +1,42 @@
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  db-populator:
+    build:
+      context: .
+      dockerfile: Dockerfile-ingestion
+    container_name: db-populator
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - DATABASE_NAME=default
+      - COLLECTION_NAME=laureates
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile-app
+    container_name: web-app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - DATABASE_NAME=default
+      - COLLECTION_NAME=laureates
+
+volumes:
+  mongo-data:
+
+
+

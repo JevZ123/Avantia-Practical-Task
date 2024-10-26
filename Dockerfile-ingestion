@@ -1,0 +1,18 @@
+FROM python:3.9-slim
+
+RUN pip install pymongo pandas
+RUN apt-get update && apt-get install -y curl
+
+RUN curl -o data.json https://api.nobelprize.org/v1/prize.json
+RUN cat data.json
+
+
+COPY ingest-laureates.py ingest-laureates.py
+
+ENV MONGO_HOST=mongo
+ENV MONGO_PORT=27017
+ENV DATABASE_NAME=default
+ENV COLLECTION_NAME=laureates
+ENV FILE_PATH=data.json
+
+CMD ["python", "ingest-laureates.py"]
