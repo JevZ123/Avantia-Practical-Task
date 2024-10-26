@@ -13,8 +13,9 @@ client = MongoClient(MONGO_HOST, MONGO_PORT)
 db = client[DATABASE_NAME]
 collection = db[COLLECTION_NAME]
 
+
 def ingest_data(file_path):
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         data = json.load(file)
 
     documents = []
@@ -28,7 +29,7 @@ def ingest_data(file_path):
                 "category": category,
                 "firstname": laureate.get("firstname"),
                 "lastname": laureate.get("surname"),
-                "name" : f"{laureate.get('firstname')} {laureate.get('surname')}",
+                "name": f"{laureate.get('firstname')} {laureate.get('surname')}",
                 "description": laureate.get("motivation"),
             }
             documents.append(document)
@@ -41,6 +42,7 @@ def create_indices():
     collection.create_index([("category", ASCENDING)])
     collection.create_index([("name", ASCENDING)])
     collection.create_index([("description", ASCENDING)])
+
 
 if __name__ == "__main__":
     ingest_data(FILE_PATH)

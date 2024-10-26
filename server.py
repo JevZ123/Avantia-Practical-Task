@@ -13,16 +13,17 @@ mongo_client = MongoClient(f"mongodb://{MONGO_HOST}:{MONGO_PORT}/")
 db = mongo_client[DATABASE_NAME]
 collection = db[COLLECTION_NAME]
 
-@app.route('/search', methods=['GET'])
+
+@app.route("/search", methods=["GET"])
 def query_laureates():
 
     print(request)
 
     # separate queries, but can be combined in the future if needed
-    year = request.args.get('year')
-    description = request.args.get('description')
-    category = request.args.get('category')
-    name = request.args.get('name')
+    year = request.args.get("year")
+    description = request.args.get("description")
+    category = request.args.get("category")
+    name = request.args.get("name")
 
     query = {}
 
@@ -39,5 +40,6 @@ def query_laureates():
 
     return jsonify(results)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     app.run()
